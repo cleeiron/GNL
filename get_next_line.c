@@ -6,7 +6,7 @@
 /*   By: cleiron <cleiron@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 16:41:46 by cleiron           #+#    #+#             */
-/*   Updated: 2026/11/25 17:49:34 by cleiron          ###   ########.fr       */
+/*   Updated: 2026/11/26 09:55:52 by cleiron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,46 +23,60 @@
 //Ceci se produit à la fin du fichier, ou si on lit depuis un tube ou un terminal, 
 //ou encore si read() a été interrompu par un signal. 
 
-//Calculer la longueur des deux chaînes.
-//Allouer suffisamment de mémoire pour les réunir.
-//Copier les caractères de static, puis ceux de buffer.
-//Ajouter le caractère \0 à la fin.
-//Libérer l'ancienne allocation de static lorsqu'elle n'est plus nécessaire.
-//Faire pointer static vers la nouvelle chaîne.
- 
 
 char *get_next_line(int fd)
 {
-	size_t i;
 	size_t nb_octs;
 	char *buffer;
 	size_t buffer_size;
 	static char *pre_line;
 	char *line;
-	size_t j;
 
 	nb_octs = 0;
-	while(read(fd, buffer, buffer_size) != 0)
+	//while(read(fd, buffer, buffer_size) != 0)
+	nb_octs = read(fd, buffer, buffer_size);
+	printf("%ld\n", nb_octs);
+	return (line);
+
+}
+
+char	*get_line(char *s1)
+{
+	char 	*line;
+	char	*temp;
+	size_t	len;
+
+	temp = ft_strchr(s1, '\n');
+	len = (temp - s1);
+	line = malloc(sizeof(char *) + len + 2);
+	if (!line)
+		return (NULL);
+	if (*temp == '\n')
 	{
-		i = 0;
-		nb_octs = read(fd, buffer, buffer_size);
-		pre_line = malloc(sizeof(char) * buffer_size + 1);
-		if(!pre_line)
-			return (NULL);
-		while (i < nb_octs)
-		{
-			pre_line[j] = buffer[i];
-			i++; 
-			j++;
-		}
-		j = 0;
-		while (pre_line[j] != "\n")
-		{
-			line[k] = pre_line[j]
-			k++;
-		}
+		ft_linecpy(line, s1, len +1);
+		line[len + 1] = '\0';
+	}
+	else
+	{
+		ft_linecpy(line, s1, len);
+		line[len] = '\0';
 	}
 	return (line);
-	
+}
+
+
+int main()
+{
+	char	*s1 = "hello\nsql";
+	char	*s2 = "salut";
+	char	*new;
+	char	*line;
+
+	s1 = get_next_line(1);
+	new = ft_strjoin(s1, s2);
+	printf("%s\n", new);
+	line = get_line(s1);
+	printf("%s\n", line);
+	return (0);
 }
 
