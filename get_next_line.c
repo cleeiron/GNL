@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cleiron <cleiron@student.42.fr>            +#+  +:+       +#+        */
+/*   By: clpincho <clpincho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 16:41:46 by cleiron           #+#    #+#             */
-/*   Updated: 2026/11/26 09:55:52 by cleiron          ###   ########.fr       */
+/*   Updated: 2026/11/26 16:04:46 by clpincho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,20 @@ char *get_next_line(int fd)
 	char *line;
 
 	nb_octs = 0;
+	//check buffersize
+	//return null quand cest lq fin ud fichier
+	// leak
+	//valgrind --leak-check=full nm du prog
+	//
 	//while(read(fd, buffer, buffer_size) != 0)
-	nb_octs = read(fd, buffer, buffer_size);
-	printf("%ld\n", nb_octs);
+	{
+		nb_octs = read(fd, buffer, BUFFER_SIZE-1);
+		while(i <nb_octs)
+		{
+			pre_line = ft_strjoin(buffer, preline);
+			line = get_line(pre_line);
+		}
+	}
 	return (line);
 
 }
@@ -72,11 +83,11 @@ int main()
 	char	*new;
 	char	*line;
 
-	s1 = get_next_line(1);
 	new = ft_strjoin(s1, s2);
 	printf("%s\n", new);
 	line = get_line(s1);
 	printf("%s\n", line);
+	s1 = get_next_line(1);
 	return (0);
 }
 
